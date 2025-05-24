@@ -24,10 +24,10 @@ def test_outdated_products_some_expired(mock_date: Any) -> None:
 
 @patch("datetime.date")
 def test_outdated_products_all_fresh(mock_date: Any) -> None:
-    mock_date.today.return_value = (REAL_DATE
-                                    (2022, 2, 1))
-    mock_date.side_effect = lambda *args, **kwargs: \
-        (REAL_DATE(*args, **kwargs))
+    mock_date.today.return_value = \
+        (REAL_DATE(2022, 2, 1))
+    mock_date.side_effect = \
+        lambda *args, **kwargs: REAL_DATE(*args, **kwargs)
 
     products = [
         {"name": "salmon", "expiration_date":
@@ -56,9 +56,25 @@ def test_outdated_products_all_expired(mock_date: Any) -> None:
 
 @patch("datetime.date")
 def test_outdated_products_empty_list(mock_date: Any) -> None:
-    mock_date.today.return_value = \
-        (REAL_DATE(2022, 2, 2))
+    mock_date.today.return_value = (
+        REAL_DATE(2022, 2, 2))
     mock_date.side_effect = \
         lambda *args, **kwargs: REAL_DATE(*args, **kwargs)
 
     assert outdated_products([]) == []
+
+
+@patch("datetime.date")
+def test_outdated_products_today_not_expired(mock_date: Any) -> None:
+    mock_date.today.return_value = (
+        REAL_DATE(2022, 2, 2))
+    mock_date.side_effect = \
+        lambda *args, **kwargs: REAL_DATE(*args, **kwargs)
+
+    products = [
+        {"name": "milk", "expiration_date":
+            REAL_DATE(2022, 2, 2), "price": 35},
+        {"name": "cheese", "expiration_date":
+            REAL_DATE(2022, 2, 1), "price": 90},
+    ]
+    assert outdated_products(products) == ["cheese"]
