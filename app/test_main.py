@@ -12,12 +12,12 @@ def test_outdated_products_some_expired(mock_date: Any) -> None:
     mock_date.side_effect = lambda *args, **kwargs: REAL_DATE(*args, **kwargs)
 
     products = [
-        {"name": "salmon", "expiration_date": REAL_DATE
-        (2022, 2, 10), "price": 600},
-        {"name": "chicken", "expiration_date": REAL_DATE
-        (2022, 2, 5), "price": 120},
-        {"name": "duck", "expiration_date": REAL_DATE
-        (2022, 2, 1), "price": 160},
+        {"name": "salmon", "expiration_date":
+            REAL_DATE(2022, 2, 10), "price": 600},
+        {"name": "chicken", "expiration_date":
+            REAL_DATE(2022, 2, 5), "price": 120},
+        {"name": "duck", "expiration_date":
+            REAL_DATE(2022, 2, 1), "price": 160},
     ]
     assert outdated_products(products) == ["duck"]
 
